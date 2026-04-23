@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loi des nœuds — Exercices</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --ink: #1a1a1a;
+    --muted: #6b6357;
+    --accent: #c1440e;
+    --green: #2d6a4f;
+    --red: #9d2b2b;
+    --blue: #1e5f8e;
+    --card: #ffffff;
+    --border: #d6cfc0;
+    --wire: #2b2b2b;
+    --highlight: #fff4d6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter Tight', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(193, 68, 14, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(45, 106, 79, 0.04) 0%, transparent 40%);
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 2.25rem;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* ---- Cours ---- */
+  .lesson-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--ink);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.85rem;
+  }
+  .section-tag.exemple { background: var(--accent); }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0.85rem;
+    letter-spacing: -0.01em;
+  }
+  .definition {
+    background: var(--highlight);
+    border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.1rem;
+    margin: 0.85rem 0 1.2rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  .formula {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    margin: 1rem 0;
+    padding: 0.85rem;
+    background: #faf8f3;
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+  }
+  .lesson-card p {
+    line-height: 1.65;
+    margin-bottom: 0.7rem;
+    font-size: 0.98rem;
+  }
+  .lesson-card strong { color: var(--accent); }
+
+  .example-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  @media (max-width: 640px) {
+    .example-wrap { grid-template-columns: 1fr; }
+  }
+  .example-solve {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .example-solve .step {
+    margin-bottom: 0.5rem;
+  }
+  .example-solve .step-label {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .example-solve .calc {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    padding: 0.4rem 0.65rem;
+    background: var(--bg);
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 0.25rem;
+  }
+  .example-solve .result {
+    background: #e8f3ec;
+    color: var(--green);
+    border-left: 3px solid var(--green);
+    padding: 0.55rem 0.8rem;
+    border-radius: 0 3px 3px 0;
+    margin-top: 0.6rem;
+    font-weight: 500;
+  }
+
+  /* ---- Exercices ---- */
+  .exercise-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .exo-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .exo-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+  .exo-number .num { color: var(--accent); }
+  .new-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.35rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+  .new-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .statement {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    color: #333;
+  }
+  .circuit-wrap {
+    background: #faf8f3;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+  svg { max-width: 100%; height: auto; }
+  .answer-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .answer-label { font-size: 0.95rem; color: var(--muted); }
+  input[type="number"] {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    width: 110px;
+    background: var(--bg);
+    color: var(--ink);
+    transition: border-color 0.15s;
+  }
+  input[type="number"]:focus { outline: none; border-color: var(--accent); }
+  .unit { font-size: 1.1rem; font-family: 'Fraunces', serif; }
+  .check-btn {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 0.55rem 1.25rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+  }
+  .check-btn:hover { background: var(--accent); }
+  .feedback {
+    margin-top: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    display: none;
+    border-left: 3px solid;
+  }
+  .feedback.show { display: block; animation: slideIn 0.25s ease-out; }
+  .feedback.correct {
+    background: #e8f3ec;
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .feedback.wrong {
+    background: #f5e4e4;
+    color: var(--red);
+    border-color: var(--red);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .score-bar {
+    position: sticky;
+    top: 1rem;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.75rem 1.25rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    z-index: 10;
+  }
+  .score-bar .score-value {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .score-bar .accent { color: #f4b942; }
+
+  /* ---- SVG circuit ---- */
+  .wire { stroke: var(--wire); stroke-width: 2.5; fill: none; stroke-linecap: square; }
+  .node-dot { fill: var(--ink); }
+  .node-label { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; fill: var(--ink); }
+  .component-label { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 500; fill: var(--ink); }
+  .current-in { fill: var(--green); font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; }
+  .current-out { fill: var(--accent); font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; }
+  .unknown { fill: var(--blue); font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; font-style: italic; }
+  .arrow-head { fill: var(--wire); }
+
+  /* Générateur (pile) */
+  .battery-long { stroke: var(--wire); stroke-width: 2.5; }
+  .battery-short { stroke: var(--wire); stroke-width: 2.5; }
+
+  /* Résistance / lampe */
+  .resistor { fill: #fff; stroke: var(--wire); stroke-width: 2.5; }
+  .lamp-circle { fill: #fff; stroke: var(--wire); stroke-width: 2.5; }
+  .lamp-cross { stroke: var(--wire); stroke-width: 1.8; }
+
+  footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="eyebrow">Électricité — Bac Pro</div>
+      <h1>Loi des nœuds</h1>
+      <div class="subtitle">Conservation du courant électrique dans un circuit</div>
+    </header>
+
+    <!-- COURS -->
+    <div class="lesson-card">
+      <span class="section-tag">À retenir</span>
+      <h2>Qu'est-ce qu'un nœud ?</h2>
+      <p>Dans un circuit électrique, un <strong>nœud</strong> est un point où se rencontrent <strong>au moins trois fils</strong>. C'est un endroit où le courant peut se séparer ou se rejoindre.</p>
+
+      <div class="definition">
+        <strong>Loi des nœuds :</strong> En un nœud d'un circuit, la somme des intensités des courants qui <em>arrivent</em> est égale à la somme des intensités des courants qui en <em>repartent</em>.
+      </div>
+
+      <div class="formula">
+        I<sub>entrantes</sub> = I<sub>sortantes</sub>
+      </div>
+
+      <p>Autrement dit : <strong>tout ce qui entre dans un nœud doit en ressortir</strong>. Le courant ne disparaît pas et ne s'accumule pas — c'est une loi de conservation.</p>
+    </div>
+
+    <!-- EXEMPLE -->
+    <div class="lesson-card">
+      <span class="section-tag exemple">Exemple résolu</span>
+      <h2>Application : on calcule I₃</h2>
+      <p>Au nœud <strong>N</strong>, deux fils apportent du courant (I₁ = 4 A et I₂ = 2 A). Un fil laisse sortir une intensité I₃ inconnue. Quelle est sa valeur ?</p>
+
+      <div class="example-wrap">
+        <div class="circuit-wrap" style="margin: 0;">
+          <!-- Mini schéma : simple nœud avec 3 fils -->
+          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrow-ex" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head"/>
+              </marker>
+            </defs>
+            <!-- 2 fils entrants (gauche) -->
+            <line x1="30" y1="70" x2="155" y2="115" class="wire" marker-end="url(#arrow-ex)"/>
+            <line x1="30" y1="170" x2="155" y2="125" class="wire" marker-end="url(#arrow-ex)"/>
+            <!-- 1 fil sortant (droite) -->
+            <line x1="165" y1="120" x2="290" y2="120" class="wire" marker-end="url(#arrow-ex)"/>
+            <!-- nœud -->
+            <circle cx="160" cy="120" r="6" class="node-dot"/>
+            <text x="160" y="148" text-anchor="middle" class="node-label">N</text>
+            <!-- étiquettes -->
+            <text x="65" y="60" class="current-in">I₁ = 4 A</text>
+            <text x="65" y="195" class="current-in">I₂ = 2 A</text>
+            <text x="210" y="108" class="unknown">I₃ = ?</text>
+          </svg>
+        </div>
+
+        <div class="example-solve">
+          <div class="step">
+            <div class="step-label">1. On applique la loi</div>
+            <span class="calc">I₁ + I₂ = I₃</span>
+          </div>
+          <div class="step">
+            <div class="step-label">2. On remplace</div>
+            <span class="calc">4 + 2 = I₃</span>
+          </div>
+          <div class="step">
+            <div class="step-label">3. On calcule</div>
+            <span class="calc">I₃ = 6 A</span>
+          </div>
+          <div class="result">✓ L'intensité qui sort vaut <strong>6 A</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCORE -->
+    <div class="score-bar">
+      <span>À toi de jouer</span>
+      <span class="score-value"><span id="correct-count" class="accent">0</span> / <span id="total-count">0</span> réponses justes</span>
+    </div>
+
+    <div id="exercises"></div>
+
+    <footer>L'Académie des Maths</footer>
+  </div>
+
+<script>
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // ============================================================
+  // Circuit rectangulaire avec dérivation
+  // ============================================================
+  // Structure commune : un circuit rectangulaire avec un générateur
+  // en bas, et une ou deux dérivations en haut. Les nœuds A et B
+  // sont visibles, les composants (lampes/résistances) sont sur les
+  // branches en dérivation.
+  //
+  // ViewBox : 500 x 340
+  // Cadre extérieur : (50, 50) à (450, 290)
+  // Nœud A en haut à gauche (150, 50), nœud B en haut à droite (350, 50)
+  // ============================================================
+
+  function drawFrame() {
+    // renvoie le SVG de base : cadre rectangulaire + générateur
+    return `
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head"/>
+        </marker>
+      </defs>
+      <!-- Côtés du rectangle -->
+      <line x1="50" y1="50" x2="150" y2="50" class="wire"/>
+      <line x1="350" y1="50" x2="450" y2="50" class="wire"/>
+      <line x1="50" y1="50" x2="50" y2="290" class="wire"/>
+      <line x1="450" y1="50" x2="450" y2="290" class="wire"/>
+      <line x1="50" y1="290" x2="210" y2="290" class="wire"/>
+      <line x1="290" y1="290" x2="450" y2="290" class="wire"/>
+      <!-- Générateur (pile) au milieu du côté bas -->
+      <line x1="235" y1="275" x2="235" y2="305" class="battery-long"/>
+      <line x1="250" y1="282" x2="250" y2="298" class="battery-short"/>
+      <line x1="210" y1="290" x2="235" y2="290" class="wire"/>
+      <line x1="250" y1="290" x2="290" y2="290" class="wire"/>
+      <text x="225" y="325" text-anchor="middle" class="component-label">Générateur</text>
+    `;
+  }
+
+  function drawNodes() {
+    // deux nœuds en haut
+    return `
+      <circle cx="150" cy="50" r="5" class="node-dot"/>
+      <text x="140" y="40" class="node-label">A</text>
+      <circle cx="350" cy="50" r="5" class="node-dot"/>
+      <text x="355" y="40" class="node-label">B</text>
+    `;
+  }
+
+  // Lampe (cercle avec croix) à la position (cx, cy)
+  function drawLamp(cx, cy, label) {
+    const r = 14;
+    const o = r * 0.707;
+    return `
+      <circle cx="${cx}" cy="${cy}" r="${r}" class="lamp-circle"/>
+      <line x1="${cx-o}" y1="${cy-o}" x2="${cx+o}" y2="${cy+o}" class="lamp-cross"/>
+      <line x1="${cx-o}" y1="${cy+o}" x2="${cx+o}" y2="${cy-o}" class="lamp-cross"/>
+      <text x="${cx}" y="${cy+30}" text-anchor="middle" class="component-label">${label}</text>
+    `;
+  }
+
+  // Flèche de courant sur un fil, avec étiquette
+  // orientation : 'down' (vertical vers bas), 'up', 'left', 'right'
+  function currentArrow(x, y, orientation, label, cssClass) {
+    // petite flèche de 18px au point (x,y)
+    let x1, y1, x2, y2, lx, ly, anchor;
+    const len = 16;
+    if (orientation === 'down') {
+      x1 = x; y1 = y - len/2; x2 = x; y2 = y + len/2;
+      lx = x + 10; ly = y + 4; anchor = 'start';
+    } else if (orientation === 'up') {
+      x1 = x; y1 = y + len/2; x2 = x; y2 = y - len/2;
+      lx = x + 10; ly = y + 4; anchor = 'start';
+    } else if (orientation === 'right') {
+      x1 = x - len/2; y1 = y; x2 = x + len/2; y2 = y;
+      lx = x; ly = y - 10; anchor = 'middle';
+    } else { // left
+      x1 = x + len/2; y1 = y; x2 = x - len/2; y2 = y;
+      lx = x; ly = y - 10; anchor = 'middle';
+    }
+    return `
+      <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="wire" marker-end="url(#arrow)" stroke-width="3"/>
+      <text x="${lx}" y="${ly}" text-anchor="${anchor}" class="${cssClass}">${label}</text>
+    `;
+  }
+
+  // ============================================================
+  // Type 1 : dérivation à 2 branches
+  // Le courant I arrive du générateur au nœud A, se sépare en I₁ et I₂
+  // dans 2 branches parallèles (L1 et L2), se rejoint au nœud B.
+  // On connaît I et I₁, on cherche I₂.
+  // ============================================================
+  function genType1() {
+    const I = rand(4, 10);
+    const I1 = rand(1, I - 1);
+    const I2 = I - I1;
+
+    const svg = `<svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+      ${drawFrame()}
+      <!-- Branche L1 : passe par le haut (y=50) -->
+      <line x1="150" y1="50" x2="250" y2="50" class="wire"/>
+      <line x1="270" y1="50" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 50, 'L₁')}
+      <!-- Branche L2 : dérivation qui descend à mi-hauteur -->
+      <line x1="150" y1="50" x2="150" y2="160" class="wire"/>
+      <line x1="150" y1="160" x2="250" y2="160" class="wire"/>
+      <line x1="270" y1="160" x2="350" y2="160" class="wire"/>
+      <line x1="350" y1="160" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 160, 'L₂')}
+      ${drawNodes()}
+      <!-- Flèches de courant -->
+      ${currentArrow(100, 50, 'right', 'I = ' + I + ' A', 'current-in')}
+      ${currentArrow(210, 50, 'right', 'I₁ = ' + I1 + ' A', 'current-out')}
+      ${currentArrow(210, 160, 'right', 'I₂ = ?', 'unknown')}
+    </svg>`;
+
+    return {
+      statement: `Le générateur délivre une intensité <strong>I = ${I} A</strong> qui arrive au nœud A. Elle se répartit dans deux branches en dérivation contenant les lampes L₁ et L₂. On mesure <strong>I₁ = ${I1} A</strong> dans la branche du haut. Quelle est l'intensité <strong>I₂</strong> dans la branche de L₂ ?`,
+      svg: svg,
+      answer: I2,
+      unit: 'A'
+    };
+  }
+
+  // ============================================================
+  // Type 2 : 3 branches en dérivation
+  // I se sépare en I₁, I₂, I₃. On connaît I, I₁, I₂ — on cherche I₃.
+  // ============================================================
+  function genType2() {
+    const I1 = rand(1, 4);
+    const I2 = rand(1, 4);
+    const I3 = rand(1, 4);
+    const I = I1 + I2 + I3;
+
+    const svg = `<svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+      ${drawFrame()}
+      <!-- Branche L1 en haut -->
+      <line x1="150" y1="50" x2="250" y2="50" class="wire"/>
+      <line x1="270" y1="50" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 50, 'L₁')}
+      <!-- Branche L2 au milieu -->
+      <line x1="150" y1="50" x2="150" y2="130" class="wire"/>
+      <line x1="150" y1="130" x2="250" y2="130" class="wire"/>
+      <line x1="270" y1="130" x2="350" y2="130" class="wire"/>
+      <line x1="350" y1="130" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 130, 'L₂')}
+      <!-- Branche L3 plus bas -->
+      <line x1="150" y1="130" x2="150" y2="210" class="wire"/>
+      <line x1="150" y1="210" x2="250" y2="210" class="wire"/>
+      <line x1="270" y1="210" x2="350" y2="210" class="wire"/>
+      <line x1="350" y1="210" x2="350" y2="130" class="wire"/>
+      ${drawLamp(260, 210, 'L₃')}
+      ${drawNodes()}
+      ${currentArrow(100, 50, 'right', 'I = ' + I + ' A', 'current-in')}
+      ${currentArrow(210, 50, 'right', 'I₁ = ' + I1 + ' A', 'current-out')}
+      ${currentArrow(210, 130, 'right', 'I₂ = ' + I2 + ' A', 'current-out')}
+      ${currentArrow(210, 210, 'right', 'I₃ = ?', 'unknown')}
+    </svg>`;
+
+    return {
+      statement: `Trois lampes L₁, L₂ et L₃ sont branchées en dérivation. Le générateur délivre <strong>I = ${I} A</strong>. On mesure <strong>I₁ = ${I1} A</strong> et <strong>I₂ = ${I2} A</strong>. Quelle est l'intensité <strong>I₃</strong> qui traverse L₃ ?`,
+      svg: svg,
+      answer: I3,
+      unit: 'A'
+    };
+  }
+
+  // ============================================================
+  // Type 3 : on cherche l'intensité totale délivrée par le générateur
+  // Les deux branches sont connues, on cherche I.
+  // ============================================================
+  function genType3() {
+    const I1 = rand(2, 6);
+    const I2 = rand(1, 5);
+    const I = I1 + I2;
+
+    const svg = `<svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+      ${drawFrame()}
+      <line x1="150" y1="50" x2="250" y2="50" class="wire"/>
+      <line x1="270" y1="50" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 50, 'L₁')}
+      <line x1="150" y1="50" x2="150" y2="160" class="wire"/>
+      <line x1="150" y1="160" x2="250" y2="160" class="wire"/>
+      <line x1="270" y1="160" x2="350" y2="160" class="wire"/>
+      <line x1="350" y1="160" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 160, 'L₂')}
+      ${drawNodes()}
+      ${currentArrow(100, 50, 'right', 'I = ?', 'unknown')}
+      ${currentArrow(210, 50, 'right', 'I₁ = ' + I1 + ' A', 'current-out')}
+      ${currentArrow(210, 160, 'right', 'I₂ = ' + I2 + ' A', 'current-out')}
+    </svg>`;
+
+    return {
+      statement: `Deux lampes L₁ et L₂ sont branchées en dérivation. Les intensités qui les traversent sont <strong>I₁ = ${I1} A</strong> et <strong>I₂ = ${I2} A</strong>. Quelle est l'intensité <strong>I</strong> délivrée par le générateur ?`,
+      svg: svg,
+      answer: I,
+      unit: 'A'
+    };
+  }
+
+  // ============================================================
+  // Type 4 : on cherche une intensité de branche, avec nœud B cette fois
+  // (pour varier le raisonnement — on travaille au nœud de sortie)
+  // ============================================================
+  function genType4() {
+    const I = rand(5, 12);
+    const I1 = rand(2, I - 2);
+    const I2 = I - I1;
+
+    const svg = `<svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+      ${drawFrame()}
+      <line x1="150" y1="50" x2="250" y2="50" class="wire"/>
+      <line x1="270" y1="50" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 50, 'L₁')}
+      <line x1="150" y1="50" x2="150" y2="160" class="wire"/>
+      <line x1="150" y1="160" x2="250" y2="160" class="wire"/>
+      <line x1="270" y1="160" x2="350" y2="160" class="wire"/>
+      <line x1="350" y1="160" x2="350" y2="50" class="wire"/>
+      ${drawLamp(260, 160, 'L₂')}
+      ${drawNodes()}
+      ${currentArrow(100, 50, 'right', 'I = ' + I + ' A', 'current-in')}
+      ${currentArrow(210, 50, 'right', 'I₁ = ?', 'unknown')}
+      ${currentArrow(210, 160, 'right', 'I₂ = ' + I2 + ' A', 'current-out')}
+    </svg>`;
+
+    return {
+      statement: `Le générateur délivre <strong>I = ${I} A</strong> dans un circuit à deux branches en dérivation. Dans la branche de L₂, on mesure <strong>I₂ = ${I2} A</strong>. Quelle est l'intensité <strong>I₁</strong> qui traverse la lampe L₁ ?`,
+      svg: svg,
+      answer: I1,
+      unit: 'A'
+    };
+  }
+
+  // ---- Rendu ----
+  const generators = [genType1, genType2, genType3, genType4];
+  const exercisesDiv = document.getElementById('exercises');
+  let totalCorrect = 0;
+  let totalAnswered = 0;
+
+  function updateScore() {
+    document.getElementById('correct-count').textContent = totalCorrect;
+    document.getElementById('total-count').textContent = totalAnswered;
+  }
+
+  function renderExercise(index, generator) {
+    const card = document.createElement('div');
+    card.className = 'exercise-card';
+    const exo = generator();
+    let hasAnswered = false;
+    let currentAnswer = exo.answer;
+
+    card.innerHTML = `
+      <div class="exo-header">
+        <div class="exo-number"><span class="num">Exercice ${index + 1}</span></div>
+        <button class="new-btn" data-action="new">↻ Nouvel énoncé</button>
+      </div>
+      <div class="statement">${exo.statement}</div>
+      <div class="circuit-wrap">${exo.svg}</div>
+      <div class="answer-row">
+        <span class="answer-label">Intensité recherchée :</span>
+        <input type="number" step="any" placeholder="?" data-field="answer">
+        <span class="unit">${exo.unit}</span>
+        <button class="check-btn" data-action="check">Vérifier</button>
+      </div>
+      <div class="feedback" data-feedback></div>
+    `;
+
+    const input = card.querySelector('[data-field=answer]');
+    const feedback = card.querySelector('[data-feedback]');
+    const checkBtn = card.querySelector('[data-action=check]');
+    const newBtn = card.querySelector('[data-action=new]');
+
+    function check() {
+      const val = parseFloat(input.value.replace(',', '.'));
+      if (isNaN(val)) {
+        feedback.className = 'feedback show wrong';
+        feedback.textContent = 'Entre un nombre pour répondre.';
+        return;
+      }
+      const correct = Math.abs(val - currentAnswer) < 0.01;
+      feedback.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+      feedback.innerHTML = correct
+        ? `✓ Bonne réponse ! L'intensité cherchée vaut bien <strong>${currentAnswer} A</strong>.`
+        : `✗ Ce n'est pas ça. Vérifie : la somme des courants qui entrent dans un nœud est égale à la somme de ceux qui en sortent.`;
+      if (!hasAnswered) {
+        totalAnswered++;
+        if (correct) totalCorrect++;
+        hasAnswered = true;
+        updateScore();
+      }
+    }
+
+    function regenerate() {
+      const newExo = generator();
+      currentAnswer = newExo.answer;
+      card.querySelector('.statement').innerHTML = newExo.statement;
+      card.querySelector('.circuit-wrap').innerHTML = newExo.svg;
+      input.value = '';
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+      hasAnswered = false;
+    }
+
+    checkBtn.addEventListener('click', check);
+    newBtn.addEventListener('click', regenerate);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') check();
+    });
+
+    exercisesDiv.appendChild(card);
+  }
+
+  generators.forEach((gen, i) => renderExercise(i, gen));
+  updateScore();
+</script>
+</body>
+</html>
